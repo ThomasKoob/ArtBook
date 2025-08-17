@@ -27,6 +27,9 @@ const IMAGES = [
   { id: 23, src: "/images/ArtBook23.jpeg", title: "" },
   { id: 24, src: "/images/ArtBook24.jpeg", title: "" },
   { id: 25, src: "/images/ArtBook25.jpeg", title: "" },
+  { id: 26, src: "/images/ArtBook26.jpeg", title: "" },
+  { id: 27, src: "/images/ArtBook27.jpeg", title: "" },
+  { id: 28, src: "/images/ArtBook28.jpeg", title: "" },
 ];
 
 const Gallery = () => {
@@ -34,7 +37,7 @@ const Gallery = () => {
 
   return (
     <main className=" mx-30 px-4 pb-16">
-      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 xl:grid-cols-3">
         {IMAGES.map((img) => (
           <ImageCard key={img.id} img={img} onOpen={setSelected} />
         ))}
