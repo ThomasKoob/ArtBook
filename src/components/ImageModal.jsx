@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const ImageModal = ({ img, onClose, isFavorite, onToggleFavorite }) => {
+  // 1) ESC-Key schließen
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") onClose(); // ESC gedrückt → Modal schließen
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
