@@ -129,9 +129,7 @@ const ImageModal = ({
           </figcaption>
         </figure>
 
-        <div className="mt-2 text-center text-xs text-white/50 sm:hidden">
-          Swipe ← oder →, um zu wechseln
-        </div>
+        <div className="mt-2 text-center text-xs text-white/50 sm:hidden"></div>
       </div>
     </div>
   );
