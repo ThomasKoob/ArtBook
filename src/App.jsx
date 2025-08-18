@@ -1,24 +1,49 @@
 import React from "react";
-import Gallery from "./pages/Gallery"; // Galerie importieren
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import Gallery from "./pages/Gallery";
 
-// App als Arrow Function
-const App = () => (
-  <div className="bg-dracula-800 text-neutral-900">
-    <header className="ml-40 mb-10 max-w-5xl px-4 py-4">
-      <div className="grid grid-cols-2">
-        <h1 className="text-9xl text-pink-200 hover:text 9xl hover:text-pink-500/50 hover:font-extrabold transition-all duration-300 font-semibold tracking-tight">
-          ArtBook{" "}
-        </h1>
-        <div className="text-4xl justify-self-end text-pink-400 ml-14 mt-10 ">
-          by Thomas Koob
-        </div>
+const App = () => {
+  return (
+    <BrowserRouter>
+      <div className="bg-dracula-800 text-neutral-900 min-h-screen">
+        {/* Header */}
+        <header className="mx-auto max-w-screen-2xl px-6 pb-16 mt-10 flex items-start justify-between">
+          {/* links: Titel */}
+          <div>
+            <h1 className="text-5xl xl:text-9xl text-pink-200 hover:text-pink-500/50 transition-all font-semibold tracking-tight">
+              ArtBook
+            </h1>
+            <h2 className="text-2xl text-pink-400 ml-20">by Thomas Koob</h2>
+          </div>
+
+          {/* rechts: Navigation */}
+          <nav className="flex gap-2 sm:gap-3">
+            <Link
+              to="/"
+              className="rounded px-10 py-2  text-2xl bg-pink-300 hover:bg-neutral-300"
+            >
+              HOME
+            </Link>
+            <Link
+              to="/gallery"
+              className="rounded px-10 py-2 text-2xl  bg-violet-300 hover:bg-neutral-300"
+            >
+              GALLERY
+            </Link>
+          </nav>
+        </header>
+
+        {/* Seiten-Inhalt */}
+        <main className="mx-auto max-w-screen-2xl px-6 pb-16">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/gallery" element={<Gallery />} />
+          </Routes>
+        </main>
       </div>
-      <p className="text-sm text-pink-100 ">
-        Klicke auf eine Karte, um das Bild groß zu sehen.
-      </p>
-    </header>
-    <Gallery />
-  </div>
-);
+    </BrowserRouter>
+  );
+};
 
 export default App;

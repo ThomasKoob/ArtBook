@@ -1,24 +1,24 @@
-// Kein React-Import nötig
+import React from "react";
 
 const ImageCard = ({ img, onOpen }) => {
   return (
-    <button
-      onClick={() => onOpen(img)} // beim Klick Bild an Parent übergeben
-      className="group overflow-hidden p-1.5 rounded-xl bg-black/40 hover:bg-pink-300/50    shadow transition hover:shadow-md"
-      aria-label={`Zeige ${img.title || "Artwork"} groß`}
-    >
-      <div className="aspect-[4/3] overflow-hidden">
-        <img
-          src={img.src} // VARIABLE, keine Anführungszeichen!
-          alt={img.title || "Artwork"} // VARIABLE
-          loading="lazy"
-          className="h-full w-full object-cover transition duration-300 group-hover:scale-120"
-        />
-      </div>
-      <div className="p-3">
-        <h3 className="text-base font-medium">{img.title}</h3>
-      </div>
-    </button>
+    <div className="group overflow-hidden rounded-xl bg-gray-800 shadow transition hover:shadow-md">
+      <button
+        onClick={() => onOpen(img)}
+        className="group overflow-hidden p-1.5 rounded-xl bg-black/40 hover:bg-pink-300/50 shadow transition hover:shadow-md"
+        aria-label={`Zeige ${img.title || "Artwork"} groß`}
+      >
+        {/* Einheitliches Format */}
+        <div className="aspect-square overflow-hidden">
+          <img
+            src={img.src}
+            alt={img.title || "Artwork"}
+            loading="lazy"
+            className="h-full w-full object-cover transition duration-300 group-hover:scale-110"
+          />
+        </div>
+      </button>
+    </div>
   );
 };
 
