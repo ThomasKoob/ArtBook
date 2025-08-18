@@ -1,6 +1,6 @@
-// Kein React-Import nötig
+import React from "react";
 
-const ImageModal = ({ img, onClose }) => {
+const ImageModal = ({ img, onClose, isFavorite, onToggleFavorite }) => {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
@@ -9,25 +9,35 @@ const ImageModal = ({ img, onClose }) => {
       aria-modal="true"
     >
       <div
-        className="relative max-xl: w-20xl rounded-xl p-3"
-        onClick={(e) => e.stopPropagation()} // Klicks innen nicht bubblen
+        className="relative max-h-[90svh] w-full max-w-4xl rounded-xl bg-black/80 p-4"
+        onClick={(e) => e.stopPropagation()}
       >
+        {/* Schließen */}
         <button
           onClick={onClose}
-          className="btn btn-ghost font-extralight  absolute text-white m-5 right-1 top-3 rounded-md border-4 px-2 py-1 text-xl"
-          aria-label="Schließen"
+          className="absolute right-3 top-3 text-white/80 hover:text-white text-xl"
         >
-          X
+          ✕
         </button>
 
+        {/* Herz-Button */}
+        <button
+          onClick={() => onToggleFavorite(img.id)}
+          className="absolute left-3 top-3 text-2xl hover:scale-110 transition"
+        >
+          <span className={isFavorite ? "text-pink-500" : "text-white/70"}>
+            {isFavorite ? "❤️" : "🤍"}
+          </span>
+        </button>
+
+        {/* Bild */}
         <figure className="flex flex-col gap-3">
           <img
-            src={img.src} // VARIABLE
-            alt={img.title || "Artwork"} // Fallback falls title leer ist
-            className="mx-auto p-15
-             max-h-[70svh w-3xl  bg-black/70 rounded-md object-contain"
+            src={img.src}
+            alt={img.title || "Artwork"}
+            className="mx-auto max-h-[70svh] w-auto rounded-md object-contain"
           />
-          <figcaption className="text-center text-sm text-neutral-600">
+          <figcaption className="text-center text-sm text-white/80">
             {img.title}
           </figcaption>
         </figure>

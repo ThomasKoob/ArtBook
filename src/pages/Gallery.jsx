@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ImageCard from "../components/ImageCard";
 import ImageModal from "../components/ImageModal";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const IMAGES = [
   { id: 1, src: "/images/ArtBook1.jpeg", title: "" },
@@ -30,22 +31,72 @@ const IMAGES = [
   { id: 26, src: "/images/ArtBook26.jpeg", title: "" },
   { id: 27, src: "/images/ArtBook27.jpeg", title: "" },
   { id: 28, src: "/images/ArtBook28.jpeg", title: "" },
+  { id: 29, src: "/images/ArtBook29.jpeg", title: "" },
+  { id: 30, src: "/images/ArtBook30.jpeg", title: "" },
+  { id: 31, src: "/images/ArtBook31.jpeg", title: "" },
+  { id: 32, src: "/images/ArtBook32.jpeg", title: "" },
+  { id: 33, src: "/images/ArtBook33.jpeg", title: "" },
+  { id: 34, src: "/images/ArtBook34.jpeg", title: "" },
 ];
 
 const Gallery = () => {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null); // welches Bild im Modal
+  const [favoriteIds, setFavoriteIds] = useLocalStorage("favorites", []);
+  const [onlyFavs, setOnlyFavs] = useState(false); // Filter
+
+  const toggleFavorite = (id) => {
+    // Herz an/aus
+    setFavoriteIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const visibleImages = useMemo(() => {
+    // Liste ggf. filtern
+    return onlyFavs
+      ? IMAGES.filter((img) => favoriteIds.includes(img.id))
+      : IMAGES;
+  }, [onlyFavs, favoriteIds]);
 
   return (
-    <main className=" mx-30 px-4 pb-16">
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 xl:grid-cols-3">
-        {IMAGES.map((img) => (
-          <ImageCard key={img.id} img={img} onOpen={setSelected} />
-        ))}
+    <>
+      {/* Favoriten-Schalter */}
+      <div className="mb-4 flex items-center gap-3">
+        <button
+          onClick={() => setOnlyFavs((v) => !v)}
+          className={`rounded ml-7 px-2 py-1 text-sm shadow ${
+            onlyFavs
+              ? "bg-purple-400 text-white"
+              : "bg-cyan-200   hover:bg-violet-300 text-gray-800"
+          }`}
+          x
+        >
+          {onlyFavs ? "Nur Favoriten: AN" : "Nur Favoriten: AUS"}
+        </button>
+        <span className="text-sm text-neutral-400">
+          ❤️ {favoriteIds.length}
+        </span>
       </div>
+
+      {/* EIN Container + EIN Grid (breit + responsiv) */}
+      <div className="mx-auto px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {visibleImages.map((img) => (
+            <ImageCard key={img.id} img={img} onOpen={setSelected} />
+          ))}
+        </div>
+      </div>
+
+      {/* Modal wieder aktiv: nutzt selected + toggleFavorite */}
       {selected && (
-        <ImageModal img={selected} onClose={() => setSelected(null)} />
+        <ImageModal
+          img={selected}
+          onClose={() => setSelected(null)}
+          isFavorite={favoriteIds.includes(selected.id)}
+          onToggleFavorite={toggleFavorite}
+        />
       )}
-    </main>
+    </>
   );
 };
 
