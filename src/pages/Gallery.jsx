@@ -40,38 +40,33 @@ const IMAGES = [
 ];
 
 const Gallery = () => {
-  const [selected, setSelected] = useState(null); // welches Bild im Modal
+  const [selected, setSelected] = useState(null);
   const [favoriteIds, setFavoriteIds] = useLocalStorage("favorites", []);
-  const [onlyFavs, setOnlyFavs] = useState(false); // Filter
+  const [onlyFavs, setOnlyFavs] = useState(false);
 
   const toggleFavorite = (id) => {
-    // Herz an/aus
     setFavoriteIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
 
   const visibleImages = useMemo(() => {
-    // Liste ggf. filtern
     return onlyFavs
       ? IMAGES.filter((img) => favoriteIds.includes(img.id))
       : IMAGES;
   }, [onlyFavs, favoriteIds]);
 
-  // Index des aktuell geöffneten Bildes in der sichtbaren Liste
   const currentIndex = useMemo(() => {
     if (!selected) return -1;
     return visibleImages.findIndex((img) => img.id === selected.id);
   }, [selected, visibleImages]);
 
-  // Zurück (wrap-around)
   const handlePrev = () => {
     if (currentIndex === -1) return;
     const i = (currentIndex - 1 + visibleImages.length) % visibleImages.length;
     setSelected(visibleImages[i]);
   };
 
-  // Weiter (wrap-around)
   const handleNext = () => {
     if (currentIndex === -1) return;
     const i = (currentIndex + 1) % visibleImages.length;
@@ -80,7 +75,6 @@ const Gallery = () => {
 
   return (
     <>
-      {/* Favoriten-Schalter */}
       <div className="mb-4 flex items-center gap-3">
         <button
           onClick={() => setOnlyFavs((v) => !v)}
@@ -98,7 +92,6 @@ const Gallery = () => {
         </span>
       </div>
 
-      {/* EIN Container + EIN Grid (breit + responsiv) */}
       <div className="mx-auto px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {visibleImages.map((img) => (
@@ -107,15 +100,14 @@ const Gallery = () => {
         </div>
       </div>
 
-      {/* Modal wieder aktiv: nutzt selected + toggleFavorite */}
       {selected && (
         <ImageModal
           img={selected}
           onClose={() => setSelected(null)}
           isFavorite={favoriteIds.includes(selected.id)}
           onToggleFavorite={toggleFavorite}
-          onPrev={handlePrev} // ⬅️ hier fügst du Prev ein
-          onNext={handleNext} // ⬅️ und Next
+          onPrev={handlePrev}
+          onNext={handleNext}
         />
       )}
     </>

@@ -8,21 +8,19 @@ const ImageModal = ({
   onPrev,
   onNext,
 }) => {
-  const [fade, setFade] = useState(true); // steuert Opacity
-  const [current, setCurrent] = useState(img); // Bild, das grad sichtbar ist
+  const [fade, setFade] = useState(true);
+  const [current, setCurrent] = useState(img);
 
-  // Wenn "img" von außen neu gesetzt wird → sanfter Wechsel
   useEffect(() => {
     if (!img) return;
-    setFade(false); // erst ausblenden
+    setFade(false);
     const t = setTimeout(() => {
-      setCurrent(img); // Bild wirklich tauschen
-      setFade(true); // wieder einblenden
-    }, 250); // Dauer des Fade-Out
+      setCurrent(img);
+      setFade(true);
+    }, 250);
     return () => clearTimeout(t);
   }, [img]);
 
-  // --- Keyboard-Shortcuts
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
@@ -78,15 +76,12 @@ const ImageModal = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Schließen */}
         <button
           onClick={onClose}
           className="absolute right-3 top-3 text-white/80 hover:text-white text-xl"
         >
           ✕
         </button>
-
-        {/* Herz */}
         <button
           onClick={() => onToggleFavorite(current.id)}
           className="absolute left-3 top-3 text-2xl hover:scale-110 transition"
@@ -113,11 +108,9 @@ const ImageModal = ({
             ›
           </button>
         )}
-
-        {/* Bild mit Fade */}
         <figure className="flex flex-col gap-3">
           <img
-            key={current.id} // zwingt Neu-Render → Fade aktiv
+            key={current.id}
             src={current.src}
             alt={current.title || "Artwork"}
             className={`mx-auto max-h-[70vh] w-auto rounded-md object-contain 

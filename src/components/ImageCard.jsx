@@ -8,7 +8,6 @@ const ImageCard = ({ img, onOpen }) => {
         className="group overflow-hidden p-1.5 rounded-xl bg-black/40 hover:bg-pink-300/50 shadow transition hover:shadow-md"
         aria-label={`Zeige ${img.title || "Artwork"} groß`}
       >
-        {/* Einheitliches Format */}
         <div className="aspect-square overflow-hidden">
           <img
             src={img.src}

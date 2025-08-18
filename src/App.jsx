@@ -22,8 +22,6 @@ const App = () => {
             </a>
             <h2 className="text-2xl text-pink-400 ml-20">by Thomas Koob</h2>
           </div>
-
-          {/* rechts: Navigation */}
           <nav className="flex shrink-2 gap-2 sm:gap-3">
             <Link
               to="/"
@@ -40,7 +38,6 @@ const App = () => {
           </nav>
         </header>
 
-        {/* Seiten-Inhalt */}
         <main className="mx-auto max-w-screen-2xl px-6 pb-16">
           <Routes>
             <Route path="/" element={<Home />} />
