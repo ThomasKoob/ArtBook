@@ -1,14 +1,23 @@
 import React, { useEffect } from "react";
 
-const ImageModal = ({ img, onClose, isFavorite, onToggleFavorite }) => {
+const ImageModal = ({
+  img,
+  onClose,
+  isFavorite,
+  onToggleFavorite,
+  onPrev,
+  onNext,
+}) => {
   // 1) ESC-Key schließen
   useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === "Escape") onClose(); // ESC gedrückt → Modal schließen
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft" && onPrev) onPrev(); // ⬅️ ohne Argumente!
+      if (e.key === "ArrowRight" && onNext) onNext(); // ESC gedrückt → Modal schließen
     };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [onClose]);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose, onPrev, onNext]);
 
   return (
     <div

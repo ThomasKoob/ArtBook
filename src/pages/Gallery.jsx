@@ -58,6 +58,26 @@ const Gallery = () => {
       : IMAGES;
   }, [onlyFavs, favoriteIds]);
 
+  // Index des aktuell geöffneten Bildes in der sichtbaren Liste
+  const currentIndex = useMemo(() => {
+    if (!selected) return -1;
+    return visibleImages.findIndex((img) => img.id === selected.id);
+  }, [selected, visibleImages]);
+
+  // Zurück (wrap-around)
+  const handlePrev = () => {
+    if (currentIndex === -1) return;
+    const i = (currentIndex - 1 + visibleImages.length) % visibleImages.length;
+    setSelected(visibleImages[i]);
+  };
+
+  // Weiter (wrap-around)
+  const handleNext = () => {
+    if (currentIndex === -1) return;
+    const i = (currentIndex + 1) % visibleImages.length;
+    setSelected(visibleImages[i]);
+  };
+
   return (
     <>
       {/* Favoriten-Schalter */}
@@ -94,6 +114,8 @@ const Gallery = () => {
           onClose={() => setSelected(null)}
           isFavorite={favoriteIds.includes(selected.id)}
           onToggleFavorite={toggleFavorite}
+          onPrev={handlePrev} // ⬅️ hier fügst du Prev ein
+          onNext={handleNext} // ⬅️ und Next
         />
       )}
     </>
